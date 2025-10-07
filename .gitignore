@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Virtual Environments
+venv/
+.venv/
+env/
+
+# IDE / Editor specific
+.idea/
+.vscode/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# Local environment variables
+.env
+
+# Test and coverage reports
+.pytest_cache/
+.coverage
+htmlcov/

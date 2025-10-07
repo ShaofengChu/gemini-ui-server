@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>LLM & MCP Agent UI</title>
+    <style>
+        body { font-family: sans-serif; max-width: 800px; margin: 40px auto; }
+        textarea { width: 100%; height: 100px; margin-bottom: 10px; padding: 10px; }
+        button { padding: 10px 20px; cursor: pointer; }
+        #output { margin-top: 20px; padding: 15px; border: 1px solid #ccc; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+    <h1>LLM 智能代理系统</h1>
+    <p>请提出需要 LLM 回答或需要调用外部工具的问题：</p>
+    <textarea id="prompt" placeholder="例如：告诉我今天几号？ 或者 帮我查询明天是否有重要的会议安排？"></textarea>
+    <button onclick="submitPrompt()">提交</button>
+    
+    <h3>结果：</h3>
+    <pre id="output">等待用户输入...</pre>
+
+    <script>
+        async function submitPrompt() {
+            const prompt = document.getElementById('prompt').value;
+            const output = document.getElementById('output');
+            output.textContent = "正在处理中，请稍候...";
+
+            try {
+                const response = await fetch('/api/process', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_prompt: prompt })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    output.textContent = `错误 (${response.status}):\n${JSON.stringify(data, null, 2)}`;
+                    return;
+                }
+
+                // 展示结构化结果
+                output.textContent = JSON.stringify(data, null, 2);
+
+            } catch (error) {
+                output.textContent = `网络或系统错误: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+fastapi
+uvicorn
+PyJWT
+requests
+google-genai>=1.0.0
